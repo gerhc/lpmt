@@ -74,9 +74,17 @@ public:
     float slideshowSpeed;
     float transDuration;
     float edgeBlendExponent;
+    float edgeBlendExponent2;
     float edgeBlendAmountSin;
     float edgeBlendAmountDx;
+    float edgeBlendAmountTop;
+    float edgeBlendAmountBottom;
     float edgeBlendGamma;
+    float edgeBlendGamma2;
+    float edgeBlendLuminance;
+    float edgeBlendLuminance2;
+    float edgeBlendThreshold;
+
 
     int quadNumber;
 

@@ -118,7 +118,8 @@ void testApp::setup()
 
 
     // load shaders
-    edgeBlendShader.load("shaders/blend.vert", "shaders/blend.frag");
+    //edgeBlendShader.load("shaders/blend.vert", "shaders/blend.frag");
+    edgeBlendShader.load("shaders/blend.vert", "shaders/SmoothEdgeBlend.frag");
 
     ttf.loadFont("type/frabk.ttf", 11);
     // set border color for quads in setup mode
@@ -231,10 +232,16 @@ void testApp::setup()
         gui.addToggle("use bezier deform.", quads[i].bBezier);
         gui.addTitle("Edge blending").setNewColumn(true);
         gui.addToggle("edge blend on/off", quads[i].edgeBlendBool);
-        gui.addSlider("exponent", quads[i].edgeBlendExponent, 1.0, 4.0);
-        gui.addSlider("gamma", quads[i].edgeBlendGamma, 1.0, 2.2);
+        gui.addSlider("power", quads[i].edgeBlendExponent, 0.0, 4.0);
+        gui.addSlider("power2", quads[i].edgeBlendExponent2, 0.0, 4.0);
+        gui.addSlider("luminance", quads[i].edgeBlendLuminance, 0.0, 4.0);
+        gui.addSlider("luminance2", quads[i].edgeBlendLuminance2, 0.0, 4.0);
+        gui.addSlider("gamma", quads[i].edgeBlendGamma, 0.1, 4.0);
+        gui.addSlider("gamma2", quads[i].edgeBlendGamma2, 0.1, 4.0);
         gui.addSlider("left edge amount", quads[i].edgeBlendAmountSin, 0.0, 0.5);
         gui.addSlider("right edge amount", quads[i].edgeBlendAmountDx, 0.0, 0.5);
+        gui.addSlider("top edge amount", quads[i].edgeBlendAmountTop, 0.0, 0.5);
+        gui.addSlider("bottom edge amount", quads[i].edgeBlendAmountBottom, 0.0, 0.5);
         gui.addTitle("Content placement");
         gui.addSlider("X displacement", quads[i].quadDispX, -1280, 1280);
         gui.addSlider("Y displacement", quads[i].quadDispY, -1280, 1280);

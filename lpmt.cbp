@@ -225,6 +225,9 @@
 		<Unit filename="../../../addons/ofxXmlSettings/src/ofxXmlSettings.h">
 			<Option virtualFolder="addons/ofxXmlSettings/src" />
 		</Unit>
+		<Unit filename="bin/data/shaders/SmoothEdgeBlend.frag">
+			<Option virtualFolder="shaders/" />
+		</Unit>
 		<Unit filename="bin/data/shaders/blend.frag">
 			<Option virtualFolder="shaders/" />
 		</Unit>

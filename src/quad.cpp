@@ -165,10 +165,14 @@ void quad::setup(float x1, float y1, float x2, float y2, float x3, float y3, flo
     thresholdGreenscreen = 10;
 
     edgeBlendBool = False;
-    edgeBlendExponent = 1.0;
-    edgeBlendGamma = 1.8;
+    edgeBlendExponent = edgeBlendExponent = 1.0;
+    edgeBlendGamma = edgeBlendGamma2 = 0.5;
+    edgeBlendLuminance = edgeBlendLuminance2 = 0.0;
     edgeBlendAmountSin = 0.3;
     edgeBlendAmountDx = 0.3;
+    edgeBlendAmountTop = 0.0;
+    edgeBlendAmountBottom = 0.0;
+    edgeBlendThreshold = 0.0;
 
     settings.internalformat = GL_RGBA;
     settings.numSamples = 0;
@@ -722,12 +726,23 @@ void quad::draw()
             {
                 ofEnableAlphaBlending();
                 shaderBlend->begin();
-                shaderBlend->setUniformTexture ("tex", quadFbo.getTextureReference(), 0);
-                shaderBlend->setUniform1f("exponent", edgeBlendExponent);
-                shaderBlend->setUniform1f("userGamma", edgeBlendGamma);
-                shaderBlend->setUniform2f("amount", edgeBlendAmountSin, edgeBlendAmountDx);
-                shaderBlend->setUniform1i("w", ofGetWidth());
-                shaderBlend->setUniform1i("h", ofGetHeight());
+                shaderBlend->setUniformTexture ("Tex0", quadFbo.getTextureReference(), 0);
+                shaderBlend->setUniform1f("BlendPower", edgeBlendExponent);
+                shaderBlend->setUniform1f("BlendPower2", edgeBlendExponent2);
+                shaderBlend->setUniform3f("GammaCorrection", edgeBlendGamma, edgeBlendGamma, edgeBlendGamma);
+                shaderBlend->setUniform3f("GammaCorrection2", edgeBlendGamma2, edgeBlendGamma2, edgeBlendGamma2);
+                shaderBlend->setUniform1f("SomeLuminanceControl", edgeBlendLuminance);
+                shaderBlend->setUniform1f("SomeLuminanceControl2", edgeBlendLuminance2);
+                shaderBlend->setUniform1f("OverlapTop", edgeBlendAmountTop);
+                shaderBlend->setUniform1f("OverlapLeft", edgeBlendAmountSin);
+                shaderBlend->setUniform1f("OverlapBottom", edgeBlendAmountBottom);
+                shaderBlend->setUniform1f("OverlapRight", edgeBlendAmountDx);
+                shaderBlend->setUniform1f("width", (float) ofGetWidth());
+                shaderBlend->setUniform1f("height", (float) ofGetHeight());
+                shaderBlend->setUniform2f("texCoordOffset", 0.0, 0.0);
+                shaderBlend->setUniform1f("projectors", 1);
+                shaderBlend->setUniform1f("threshold", edgeBlendThreshold);
+
                 //set ofColor to white
                 ofSetColor(255,255,255);
                 //Blend modes stuff (with shaders would be better, but it scales bad on older GPUs)
