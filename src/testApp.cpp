@@ -238,10 +238,10 @@ void testApp::setup()
         gui.addSlider("luminance2", quads[i].edgeBlendLuminance2, 0.0, 4.0);
         gui.addSlider("gamma", quads[i].edgeBlendGamma, 0.1, 4.0);
         gui.addSlider("gamma2", quads[i].edgeBlendGamma2, 0.1, 4.0);
-        gui.addSlider("left edge amount", quads[i].edgeBlendAmountSin, 0.0, 0.5);
-        gui.addSlider("right edge amount", quads[i].edgeBlendAmountDx, 0.0, 0.5);
-        gui.addSlider("top edge amount", quads[i].edgeBlendAmountTop, 0.0, 0.5);
-        gui.addSlider("bottom edge amount", quads[i].edgeBlendAmountBottom, 0.0, 0.5);
+        gui.addSlider("left edge amount", quads[i].edgeBlendAmountSin, 0.0, 600);
+        gui.addSlider("right edge amount", quads[i].edgeBlendAmountDx, 0.0, 600);
+        gui.addSlider("top edge amount", quads[i].edgeBlendAmountTop, 0.0, 600);
+        gui.addSlider("bottom edge amount", quads[i].edgeBlendAmountBottom, 0.0, 600);
         gui.addTitle("Content placement");
         gui.addSlider("X displacement", quads[i].quadDispX, -1280, 1280);
         gui.addSlider("Y displacement", quads[i].quadDispY, -1280, 1280);
