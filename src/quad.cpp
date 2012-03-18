@@ -1141,6 +1141,6 @@ void quad::draw()
             }
             ttf.drawString("surface "+ofToString(quadNumber), (center.x*ofGetWidth())-2, (center.y*ofGetHeight())-2);
         }
-
+        ofDisableSmoothing();
     }
 }
