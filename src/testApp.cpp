@@ -41,7 +41,7 @@ int getdir (string dir, vector<string> &files)
 void testApp::setup()
 {
 
-    ofSetDrawBitmapMode(OF_BITMAPMODE_MODEL_BILLBOARD);
+    //ofSetDrawBitmapMode(OF_BITMAPMODE_MODEL_BILLBOARD);
 
     bKinectOk = kinect.setup();
     bCloseKinect = false;
