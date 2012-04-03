@@ -58,7 +58,10 @@ void testApp::setup()
     camWidth = camGrabber.width;
     camHeight= camGrabber.height;
     printf("camera init asked for 640 by 480 - actual size is %i by %i \n", camWidth, camHeight);
-    if (camWidth == 0 || camHeight == 0) { ofSystemAlertDialog("camera not found, live feed not available"); }
+    if (camWidth == 0 || camHeight == 0)
+    {
+        ofSystemAlertDialog("camera not found, live feed not available");
+    }
 
     /*
     while (!camGrabber.isFrameNew())
@@ -283,19 +286,19 @@ void testApp::setup()
         gui.addToggle("video greenscreen", quads[i].videoGreenscreen);
         if (camWidth > 0)
         {
-        gui.addTitle("Camera").setNewColumn(true);
-        gui.addToggle("cam on/off", quads[i].camBg);
-        gui.addSlider("camera scale X", quads[i].camMultX, 0.1, 5.0);
-        gui.addSlider("camera scale Y", quads[i].camMultY, 0.1, 5.0);
-        gui.addToggle("H mirror", quads[i].camHFlip);
-        gui.addToggle("V mirror", quads[i].camVFlip);
-        gui.addColorPicker("cam color", &quads[i].camColorize.r);
-        gui.addToggle("camera greenscreen", quads[i].camGreenscreen);
-        gui.addTitle("Greenscreen");
+            gui.addTitle("Camera").setNewColumn(true);
+            gui.addToggle("cam on/off", quads[i].camBg);
+            gui.addSlider("camera scale X", quads[i].camMultX, 0.1, 5.0);
+            gui.addSlider("camera scale Y", quads[i].camMultY, 0.1, 5.0);
+            gui.addToggle("H mirror", quads[i].camHFlip);
+            gui.addToggle("V mirror", quads[i].camVFlip);
+            gui.addColorPicker("cam color", &quads[i].camColorize.r);
+            gui.addToggle("camera greenscreen", quads[i].camGreenscreen);
+            gui.addTitle("Greenscreen");
         }
         else
         {
-        gui.addTitle("Greenscreen").setNewColumn(true);
+            gui.addTitle("Greenscreen").setNewColumn(true);
         }
         gui.addSlider("g-screen threshold", quads[i].thresholdGreenscreen, 0, 128);
         gui.addColorPicker("greenscreen col", &quads[i].colorGreenscreen.r);
@@ -503,12 +506,12 @@ void testApp::dostuff()
 
         // if snapshot is on draws it as window background
         if (isSetup && snapshotOn)
-            {
-                ofEnableAlphaBlending();
-                ofSetHexColor(0xFFFFFF);
-                snapshotTexture.draw(0,0,ofGetWidth(),ofGetHeight());
-                ofDisableAlphaBlending();
-            }
+        {
+            ofEnableAlphaBlending();
+            ofSetHexColor(0xFFFFFF);
+            snapshotTexture.draw(0,0,ofGetWidth(),ofGetHeight());
+            ofDisableAlphaBlending();
+        }
 
         // loops through initialized quads and calls their draw function
         for(int j = 0; j < 36; j++)
@@ -566,7 +569,8 @@ void testApp::draw()
 
             ofSetHexColor(0xFFFFFF);
             ttf.drawString("active surface: "+ofToString(activeQuad), 30, ofGetHeight()-25);
-            if(maskSetup) {
+            if(maskSetup)
+            {
                 ofSetHexColor(0xFF0000);
                 ttf.drawString("Mask-editing mode ", 170, ofGetHeight()-25);
             }
@@ -770,8 +774,14 @@ void testApp::keyPressed(int key)
     // goes to first page of gui for active quad or, in mask edit mode, delete last drawn point
     if ( key == 'z' || key == 'Z')
     {
-        if(maskSetup && quads[activeQuad].maskPoints.size()>0) {quads[activeQuad].maskPoints.pop_back();}
-        else {gui.setPage((activeQuad*3)+2);}
+        if(maskSetup && quads[activeQuad].maskPoints.size()>0)
+        {
+            quads[activeQuad].maskPoints.pop_back();
+        }
+        else
+        {
+            gui.setPage((activeQuad*3)+2);
+        }
     }
 
     if ( key == OF_KEY_F1)
@@ -802,8 +812,14 @@ void testApp::keyPressed(int key)
     if ( key == 'c' || key == 'C')
     {
 
-        if(maskSetup) {quads[activeQuad].maskPoints.clear();}
-        else {gui.setPage((activeQuad*3)+4);}
+        if(maskSetup)
+        {
+            quads[activeQuad].maskPoints.clear();
+        }
+        else
+        {
+            gui.setPage((activeQuad*3)+4);
+        }
     }
 
     if (key == OF_KEY_F3)
@@ -894,15 +910,16 @@ void testApp::keyPressed(int key)
     // toggles gui
     if(key == 'g')
     {
-        if (maskSetup) {
+        if (maskSetup)
+        {
             maskSetup = False;
             for(int i = 0; i < 36; i++)
+            {
+                if (quads[i].initialized)
                 {
-                    if (quads[i].initialized)
-                    {
-                        quads[i].isMaskSetup = False;
-                    }
+                    quads[i].isMaskSetup = False;
                 }
+            }
         }
         gui.toggleDraw();
         bGui = !bGui;
@@ -911,9 +928,10 @@ void testApp::keyPressed(int key)
     // toggles mask editing
     if(key == 'm')
     {
-        if (!bGui){
-        maskSetup = !maskSetup;
-        for(int i = 0; i < 36; i++)
+        if (!bGui)
+        {
+            maskSetup = !maskSetup;
+            for(int i = 0; i < 36; i++)
             {
                 if (quads[i].initialized)
                 {
@@ -926,9 +944,10 @@ void testApp::keyPressed(int key)
     // toggles bezier deformation editing
     if(key == 'b')
     {
-        if (!bGui){
-        gridSetup = !gridSetup;
-        for(int i = 0; i < 36; i++)
+        if (!bGui)
+        {
+            gridSetup = !gridSetup;
+            for(int i = 0; i < 36; i++)
             {
                 if (quads[i].initialized)
                 {
@@ -1016,15 +1035,15 @@ void testApp::mouseMoved(int x, int y )
         }
 
         if(whichCorner >= 0)
-            {
-                quads[activeQuad].bHighlightCorner = True;
-                quads[activeQuad].highlightedCorner = whichCorner;
-            }
+        {
+            quads[activeQuad].bHighlightCorner = True;
+            quads[activeQuad].highlightedCorner = whichCorner;
+        }
         else
-            {
-                quads[activeQuad].bHighlightCorner = False;
-                quads[activeQuad].highlightedCorner = -1;
-            }
+        {
+            quads[activeQuad].bHighlightCorner = False;
+            quads[activeQuad].highlightedCorner = -1;
+        }
     }
 
     else if (maskSetup && !gridSetup)
@@ -1046,15 +1065,15 @@ void testApp::mouseMoved(int x, int y )
             }
         }
         if(whichPoint >= 0)
-            {
-                quads[activeQuad].bHighlightMaskPoint = True;
-                quads[activeQuad].highlightedMaskPoint = whichPoint;
-            }
+        {
+            quads[activeQuad].bHighlightMaskPoint = True;
+            quads[activeQuad].highlightedMaskPoint = whichPoint;
+        }
         else
-            {
-                quads[activeQuad].bHighlightMaskPoint = False;
-                quads[activeQuad].highlightedMaskPoint = -1;
-            }
+        {
+            quads[activeQuad].bHighlightMaskPoint = False;
+            quads[activeQuad].highlightedMaskPoint = -1;
+        }
     }
 
     else if (gridSetup && !maskSetup)
@@ -1066,58 +1085,58 @@ void testApp::mouseMoved(int x, int y )
 
         if(quads[activeQuad].bBezier)
         {
-        for(int i = 0; i < 4; i++)
-        {
-            for (int j = 0; j < 4; j++)
+            for(int i = 0; i < 4; i++)
             {
-                warped = quads[activeQuad].getWarpedPoint(x,y);
-                float distx = (float)quads[activeQuad].bezierPoints[i][j][0] * ofGetWidth() - (float)warped.x;
-                float disty = (float)quads[activeQuad].bezierPoints[i][j][1] * ofGetHeight() - (float)warped.y;
-                float dist  = sqrt( distx * distx + disty * disty);
-
-                if(dist < smallestDist && dist < 20.0)
+                for (int j = 0; j < 4; j++)
                 {
-                    whichPointRow = i;
-                    whichPointCol = j;
-                    smallestDist = dist;
+                    warped = quads[activeQuad].getWarpedPoint(x,y);
+                    float distx = (float)quads[activeQuad].bezierPoints[i][j][0] * ofGetWidth() - (float)warped.x;
+                    float disty = (float)quads[activeQuad].bezierPoints[i][j][1] * ofGetHeight() - (float)warped.y;
+                    float dist  = sqrt( distx * distx + disty * disty);
+
+                    if(dist < smallestDist && dist < 20.0)
+                    {
+                        whichPointRow = i;
+                        whichPointCol = j;
+                        smallestDist = dist;
+                    }
                 }
             }
-        }
         }
 
         else if(quads[activeQuad].bGrid)
         {
-        for(int i = 0; i <= quads[activeQuad].gridRows; i++)
-        {
-            for (int j = 0; j <= quads[activeQuad].gridColumns; j++)
+            for(int i = 0; i <= quads[activeQuad].gridRows; i++)
             {
-                warped = quads[activeQuad].getWarpedPoint(x,y);
-                float distx = (float)quads[activeQuad].gridPoints[i][j][0] * ofGetWidth() - (float)warped.x;
-                float disty = (float)quads[activeQuad].gridPoints[i][j][1] * ofGetHeight() - (float)warped.y;
-                float dist  = sqrt( distx * distx + disty * disty);
-
-                if(dist < smallestDist && dist < 20.0)
+                for (int j = 0; j <= quads[activeQuad].gridColumns; j++)
                 {
-                    whichPointRow = i;
-                    whichPointCol = j;
-                    smallestDist = dist;
+                    warped = quads[activeQuad].getWarpedPoint(x,y);
+                    float distx = (float)quads[activeQuad].gridPoints[i][j][0] * ofGetWidth() - (float)warped.x;
+                    float disty = (float)quads[activeQuad].gridPoints[i][j][1] * ofGetHeight() - (float)warped.y;
+                    float dist  = sqrt( distx * distx + disty * disty);
+
+                    if(dist < smallestDist && dist < 20.0)
+                    {
+                        whichPointRow = i;
+                        whichPointCol = j;
+                        smallestDist = dist;
+                    }
                 }
             }
         }
-        }
 
         if(whichPointRow >= 0)
-            {
-                quads[activeQuad].bHighlightCtrlPoint = True;
-                quads[activeQuad].highlightedCtrlPointRow = whichPointRow;
-                quads[activeQuad].highlightedCtrlPointCol = whichPointCol;
-            }
+        {
+            quads[activeQuad].bHighlightCtrlPoint = True;
+            quads[activeQuad].highlightedCtrlPointRow = whichPointRow;
+            quads[activeQuad].highlightedCtrlPointCol = whichPointCol;
+        }
         else
-            {
-                quads[activeQuad].bHighlightCtrlPoint = False;
-                quads[activeQuad].highlightedCtrlPointRow = -1;
-                quads[activeQuad].highlightedCtrlPointCol = -1;
-            }
+        {
+            quads[activeQuad].bHighlightCtrlPoint = False;
+            quads[activeQuad].highlightedCtrlPointRow = -1;
+            quads[activeQuad].highlightedCtrlPointCol = -1;
+        }
     }
 }
 
@@ -1171,17 +1190,17 @@ void testApp::mouseDragged(int x, int y, int button)
     {
         if(quads[activeQuad].bBezier)
         {
-        ofVec3f punto;
-        punto = quads[activeQuad].getWarpedPoint(x,y);
-        quads[activeQuad].bezierPoints[quads[activeQuad].highlightedCtrlPointRow][quads[activeQuad].highlightedCtrlPointCol][0] = (float)punto.x/ofGetWidth();
-        quads[activeQuad].bezierPoints[quads[activeQuad].highlightedCtrlPointRow][quads[activeQuad].highlightedCtrlPointCol][1] = (float)punto.y/ofGetHeight();
+            ofVec3f punto;
+            punto = quads[activeQuad].getWarpedPoint(x,y);
+            quads[activeQuad].bezierPoints[quads[activeQuad].highlightedCtrlPointRow][quads[activeQuad].highlightedCtrlPointCol][0] = (float)punto.x/ofGetWidth();
+            quads[activeQuad].bezierPoints[quads[activeQuad].highlightedCtrlPointRow][quads[activeQuad].highlightedCtrlPointCol][1] = (float)punto.y/ofGetHeight();
         }
         else if(quads[activeQuad].bGrid)
         {
-        ofVec3f punto;
-        punto = quads[activeQuad].getWarpedPoint(x,y);
-        quads[activeQuad].gridPoints[quads[activeQuad].highlightedCtrlPointRow][quads[activeQuad].highlightedCtrlPointCol][0] = (float)punto.x/ofGetWidth();
-        quads[activeQuad].gridPoints[quads[activeQuad].highlightedCtrlPointRow][quads[activeQuad].highlightedCtrlPointCol][1] = (float)punto.y/ofGetHeight();
+            ofVec3f punto;
+            punto = quads[activeQuad].getWarpedPoint(x,y);
+            quads[activeQuad].gridPoints[quads[activeQuad].highlightedCtrlPointRow][quads[activeQuad].highlightedCtrlPointCol][0] = (float)punto.x/ofGetWidth();
+            quads[activeQuad].gridPoints[quads[activeQuad].highlightedCtrlPointRow][quads[activeQuad].highlightedCtrlPointCol][1] = (float)punto.y/ofGetHeight();
         }
     }
 }
@@ -1201,36 +1220,39 @@ void testApp::mousePressed(int x, int y, int button)
     if (isSetup && !bGui)
     {
 
-        if(maskSetup && !gridSetup) {
+        if(maskSetup && !gridSetup)
+        {
             if (!quads[activeQuad].bHighlightMaskPoint)
             {
                 quads[activeQuad].maskAddPoint(x, y);
             }
         }
 
-        else {
-        float smallestDist = 1.0;
-        whichCorner = -1;
-        unsigned long curTap = ofGetElapsedTimeMillis();
-        if(lastTap != 0 && curTap - lastTap < doubleclickTime){
-            activateQuad(x,y);
-        }
-        lastTap = curTap;
-
-        // check if we are near once of active quad's corners
-        for(int i = 0; i < 4; i++)
+        else
         {
-            float distx = quads[activeQuad].corners[i].x - (float)x/ofGetWidth();
-            float disty = quads[activeQuad].corners[i].y - (float)y/ofGetHeight();
-            float dist  = sqrt( distx * distx + disty * disty);
-
-            if(dist < smallestDist && dist < 0.1)
+            float smallestDist = 1.0;
+            whichCorner = -1;
+            unsigned long curTap = ofGetElapsedTimeMillis();
+            if(lastTap != 0 && curTap - lastTap < doubleclickTime)
             {
-                whichCorner = i;
-                smallestDist = dist;
+                activateQuad(x,y);
+            }
+            lastTap = curTap;
+
+            // check if we are near once of active quad's corners
+            for(int i = 0; i < 4; i++)
+            {
+                float distx = quads[activeQuad].corners[i].x - (float)x/ofGetWidth();
+                float disty = quads[activeQuad].corners[i].y - (float)y/ofGetHeight();
+                float dist  = sqrt( distx * distx + disty * disty);
+
+                if(dist < smallestDist && dist < 0.1)
+                {
+                    whichCorner = i;
+                    smallestDist = dist;
+                }
             }
         }
-    }
     }
 }
 
@@ -1240,54 +1262,54 @@ void testApp::mouseReleased()
     if (isSetup && !bGui)
     {
 
-    if (whichCorner >= 0)
-    {
-        // snap detection for near quads
-        float smallestDist = 1.0;
-        int snapQuad = -1;
-        int snapCorner = -1;
-        for (int i = 0; i < 36; i++)
+        if (whichCorner >= 0)
         {
-            if ( i != activeQuad && quads[i].initialized)
+            // snap detection for near quads
+            float smallestDist = 1.0;
+            int snapQuad = -1;
+            int snapCorner = -1;
+            for (int i = 0; i < 36; i++)
             {
-                for(int j = 0; j < 4; j++)
+                if ( i != activeQuad && quads[i].initialized)
                 {
-                    float distx = quads[activeQuad].corners[whichCorner].x - quads[i].corners[j].x;
-                    float disty = quads[activeQuad].corners[whichCorner].y - quads[i].corners[j].y;
-                    float dist = sqrt( distx * distx + disty * disty);
-                    // to tune snapping change dist value inside next if statement
-                    if (dist < smallestDist && dist < 0.0075)
+                    for(int j = 0; j < 4; j++)
                     {
-                        snapQuad = i;
-                        snapCorner = j;
-                        smallestDist = dist;
+                        float distx = quads[activeQuad].corners[whichCorner].x - quads[i].corners[j].x;
+                        float disty = quads[activeQuad].corners[whichCorner].y - quads[i].corners[j].y;
+                        float dist = sqrt( distx * distx + disty * disty);
+                        // to tune snapping change dist value inside next if statement
+                        if (dist < smallestDist && dist < 0.0075)
+                        {
+                            snapQuad = i;
+                            snapCorner = j;
+                            smallestDist = dist;
+                        }
                     }
                 }
             }
+            if (snapQuad >= 0 && snapCorner >= 0)
+            {
+                quads[activeQuad].corners[whichCorner].x = quads[snapQuad].corners[snapCorner].x;
+                quads[activeQuad].corners[whichCorner].y = quads[snapQuad].corners[snapCorner].y;
+            }
         }
-        if (snapQuad >= 0 && snapCorner >= 0)
-        {
-            quads[activeQuad].corners[whichCorner].x = quads[snapQuad].corners[snapCorner].x;
-            quads[activeQuad].corners[whichCorner].y = quads[snapQuad].corners[snapCorner].y;
-        }
-    }
-    whichCorner = -1;
-    quads[activeQuad].bHighlightCorner = False;
+        whichCorner = -1;
+        quads[activeQuad].bHighlightCorner = False;
     }
 }
 
 
 void testApp::windowResized(int w, int h)
 {
-            for(int i = 0; i < 36; i++)
-            {
-                if (quads[i].initialized)
-                {
-                    quads[i].bHighlightCorner = False;
-                    quads[i].allocateFbo(ofGetWidth(),ofGetHeight());
-                    quadDimensionsReset(i);
-                }
-            }
+    for(int i = 0; i < 36; i++)
+    {
+        if (quads[i].initialized)
+        {
+            quads[i].bHighlightCorner = False;
+            quads[i].allocateFbo(ofGetWidth(),ofGetHeight());
+            quadDimensionsReset(i);
+        }
+    }
 }
 
 
@@ -1386,13 +1408,13 @@ void testApp::quadBezierSpherize(int q)
         {   {0*h/w+(0.5*(w/h-1))*h/w, 1.0, 0},        {0.5*k*h/w+(0.5*(w/h-1))*h/w, 1.0+0.5*k, 0},  {(1.0*h/w)-(0.5*k*h/w)+(0.5*(w/h-1))*h/w, 1.0+0.5*k, 0},  {1.0*h/w+(0.5*(w/h-1))*h/w, 1.0, 0}  }
     };
 
-  /*  quads[q].bezierPoints =
-    {
-        {   {(0.5*w/h-0.5)*h/w, 0, 0},  {0.5*(k+w/h-1)*h/w, -0.5*k, 0},    {0.5*(1-k+w/h)*h/w, -0.5*k, 0},    {1.0*h/w+(0.5*(w/h-1))*h/w, 0, 0}    },
-        {   {0*h/w-(0.5*k*h/w)+(0.5*(w/h-1))*h/w, 0.5*k, 0},        {0*h/w+(0.5*(w/h-1))*h/w, 0, 0},  {1.0*h/w+(0.5*(w/h-1))*h/w, 0, 0},  {1.0*h/w+(0.5*k*h/w)+(0.5*(w/h-1))*h/w, 0.5*k, 0}  },
-        {   {0*h/w-(0.5*k*h/w)+(0.5*(w/h-1))*h/w, 1.0-0.5*k, 0},        {0*h/w+(0.5*(w/h-1))*h/w, 1.0, 0},  {1.0*h/w+(0.5*(w/h-1))*h/w, 1.0, 0},  {1.0*h/w+(0.5*k*h/w)+(0.5*(w/h-1))*h/w, 1.0-0.5*k, 0}  },
-        {   {0*h/w+(0.5*(w/h-1))*h/w, 1.0, 0},        {0.5*k*h/w+(0.5*(w/h-1))*h/w, 1.0+0.5*k, 0},  {(1.0*h/w)-(0.5*k*h/w)+(0.5*(w/h-1))*h/w, 1.0+0.5*k, 0},  {1.0*h/w+(0.5*(w/h-1))*h/w, 1.0, 0}  }
-    }; */
+    /*  quads[q].bezierPoints =
+      {
+          {   {(0.5*w/h-0.5)*h/w, 0, 0},  {0.5*(k+w/h-1)*h/w, -0.5*k, 0},    {0.5*(1-k+w/h)*h/w, -0.5*k, 0},    {1.0*h/w+(0.5*(w/h-1))*h/w, 0, 0}    },
+          {   {0*h/w-(0.5*k*h/w)+(0.5*(w/h-1))*h/w, 0.5*k, 0},        {0*h/w+(0.5*(w/h-1))*h/w, 0, 0},  {1.0*h/w+(0.5*(w/h-1))*h/w, 0, 0},  {1.0*h/w+(0.5*k*h/w)+(0.5*(w/h-1))*h/w, 0.5*k, 0}  },
+          {   {0*h/w-(0.5*k*h/w)+(0.5*(w/h-1))*h/w, 1.0-0.5*k, 0},        {0*h/w+(0.5*(w/h-1))*h/w, 1.0, 0},  {1.0*h/w+(0.5*(w/h-1))*h/w, 1.0, 0},  {1.0*h/w+(0.5*k*h/w)+(0.5*(w/h-1))*h/w, 1.0-0.5*k, 0}  },
+          {   {0*h/w+(0.5*(w/h-1))*h/w, 1.0, 0},        {0.5*k*h/w+(0.5*(w/h-1))*h/w, 1.0+0.5*k, 0},  {(1.0*h/w)-(0.5*k*h/w)+(0.5*(w/h-1))*h/w, 1.0+0.5*k, 0},  {1.0*h/w+(0.5*(w/h-1))*h/w, 1.0, 0}  }
+      }; */
 }
 
 //---------------------------------------------------------------
@@ -1591,6 +1613,21 @@ void testApp::setXml()
                     XML.setValue("QUADS:QUAD_"+ofToString(i)+":MASK:POINTS:POINT_"+ofToString(j)+":Y",quads[i].maskPoints[j].y);
                 }
             }
+            // deform stuff
+            XML.setValue("QUADS:QUAD_"+ofToString(i)+":DEFORM:ON",quads[i].bDeform);
+            XML.setValue("QUADS:QUAD_"+ofToString(i)+":DEFORM:BEZIER:ON",quads[i].bBezier);
+            XML.setValue("QUADS:QUAD_"+ofToString(i)+":DEFORM:GRID:ON",quads[i].bGrid);
+            // bezier stuff
+            for (int j = 0; j < 4; ++j)
+            {
+                for (int k = 0; k < 4; ++k)
+                {
+                    XML.setValue("QUADS:QUAD_"+ofToString(i)+":DEFORM:BEZIER:CTRLPOINTS:POINT_"+ofToString(j)+"_"+ofToString(k)+":X",quads[i].bezierPoints[j][k][0]);
+                    XML.setValue("QUADS:QUAD_"+ofToString(i)+":DEFORM:BEZIER:CTRLPOINTS:POINT_"+ofToString(j)+"_"+ofToString(k)+":Y",quads[i].bezierPoints[j][k][1]);
+                    XML.setValue("QUADS:QUAD_"+ofToString(i)+":DEFORM:BEZIER:CTRLPOINTS:POINT_"+ofToString(j)+"_"+ofToString(k)+":Z",quads[i].bezierPoints[j][k][2]);
+                }
+            }
+
 
         }
     }
@@ -1725,6 +1762,20 @@ void testApp::getXml()
             }
         }
 
+        // deform stuff
+        quads[i].bDeform = XML.getValue("QUADS:QUAD_"+ofToString(i)+":DEFORM:ON",0);
+        quads[i].bBezier = XML.getValue("QUADS:QUAD_"+ofToString(i)+":DEFORM:BEZIER:ON",0);
+        quads[i].bGrid = XML.getValue("QUADS:QUAD_"+ofToString(i)+":DEFORM:GRID:ON",0);
+        // bezier stuff
+        for (int j = 0; j < 4; ++j)
+        {
+            for (int k = 0; k < 4; ++k)
+            {
+                quads[i].bezierPoints[j][k][0] = XML.getValue("QUADS:QUAD_"+ofToString(i)+":DEFORM:BEZIER:CTRLPOINTS:POINT_"+ofToString(j)+"_"+ofToString(k)+":X",0.0);
+                quads[i].bezierPoints[j][k][1] = XML.getValue("QUADS:QUAD_"+ofToString(i)+":DEFORM:BEZIER:CTRLPOINTS:POINT_"+ofToString(j)+"_"+ofToString(k)+":Y",0.0);
+                quads[i].bezierPoints[j][k][2] = XML.getValue("QUADS:QUAD_"+ofToString(i)+":DEFORM:BEZIER:CTRLPOINTS:POINT_"+ofToString(j)+"_"+ofToString(k)+":Z",0.0);
+            }
+        }
 
 
         quads[i].isOn = XML.getValue("QUADS:QUAD_"+ofToString(i)+":IS_ON",0);
