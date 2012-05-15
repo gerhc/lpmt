@@ -40,7 +40,7 @@ void testApp::openSharedVideoFile(int i)
         {
             cout << "shared video loaded" << endl;
             sharedVideos[i].play();
-            sharedVideos[i].setVolume(0);
+            //sharedVideos[i].setVolume(0);
         }
     }
 }

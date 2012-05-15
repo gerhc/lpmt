@@ -8,15 +8,15 @@
 
 #ifdef WITH_KINECT
     #ifdef WITH_SYPHON
-    void quad::setup(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, ofShader &edgeBlendShader, ofShader &quadMaskShader, ofShader &chromaShader, vector<ofVideoGrabber> &cameras, vector<ofVideoPlayer> &sharedVideos, kinectManager &kinect, ofxSyphonClient &syphon)
+    void quad::setup(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, ofShader &edgeBlendShader, ofShader &quadMaskShader, ofShader &chromaShader, vector<ofVideoGrabber> &cameras, vector<ofTexture*> &sharedTextures, kinectManager &kinect, ofxSyphonClient &syphon)
     #else
-    void quad::setup(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, ofShader &edgeBlendShader, ofShader &quadMaskShader, ofShader &chromaShader, vector<ofVideoGrabber> &cameras, vector<ofVideoPlayer> &sharedVideos, kinectManager &kinect)
+    void quad::setup(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, ofShader &edgeBlendShader, ofShader &quadMaskShader, ofShader &chromaShader, vector<ofVideoGrabber> &cameras, vector<ofTexture*> &sharedTextures, kinectManager &kinect)
     #endif
 #else
     #ifdef WITH_SYPHON
-    void quad::setup(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, ofShader &edgeBlendShader, ofShader &quadMaskShader, ofShader &chromaShader, vector<ofVideoGrabber> &cameras, vector<ofVideoPlayer> &sharedVideos, ofxSyphonClient &syphon)
+    void quad::setup(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, ofShader &edgeBlendShader, ofShader &quadMaskShader, ofShader &chromaShader, vector<ofVideoGrabber> &cameras, vector<ofTexture*> &sharedTextures, ofxSyphonClient &syphon)
     #else
-    void quad::setup(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, ofShader &edgeBlendShader, ofShader &quadMaskShader, ofShader &chromaShader, vector<ofVideoGrabber> &cameras, vector<ofVideoPlayer> &sharedVideos)
+    void quad::setup(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4, ofShader &edgeBlendShader, ofShader &quadMaskShader, ofShader &chromaShader, vector<ofVideoGrabber> &cameras, vector<ofTexture*> &sharedTextures)
     #endif
 #endif
 {
@@ -31,7 +31,7 @@
     #ifdef WITH_SYPHON
     syphClientTex = &syphon;
     #endif
-    vids = sharedVideos;
+    vids = sharedTextures;
     cams = cameras;
     if(cams.size()>0)
     {
@@ -594,24 +594,24 @@ void quad::draw()
         if (sharedVideoBg)
         {
             cout << sharedVideoId << endl;
-            cout << vids[sharedVideoId].getTextureReference().getWidth() << endl;
+            cout << vids[sharedVideoId]->getWidth() << endl;
 
             if (videoHFlip || videoVFlip)
             {
                 glPushMatrix();
                 if(videoHFlip && !videoVFlip)
                 {
-                    ofTranslate(vids[sharedVideoId].width*videoMultX,0);
+                    ofTranslate(vids[sharedVideoId]->getWidth()*videoMultX,0);
                     glScalef(-1,1,1);
                 }
                 else if(videoVFlip && !videoHFlip)
                 {
-                    ofTranslate(0,vids[sharedVideoId].height*videoMultY);
+                    ofTranslate(0,vids[sharedVideoId]->getHeight()*videoMultY);
                     glScalef(1,-1,1);
                 }
                 else
                 {
-                    ofTranslate(vids[sharedVideoId].width*videoMultX,vids[sharedVideoId].height*videoMultY);
+                    ofTranslate(vids[sharedVideoId]->getWidth()*videoMultX,vids[sharedVideoId]->getHeight()*videoMultY);
                     glScalef(-1,-1,1);
                 }
             }
@@ -628,12 +628,12 @@ void quad::draw()
                 greenscreenShader->setUniform1f("tintG", videoColorize.g);
                 greenscreenShader->setUniform1f("tintB", videoColorize.b);
                 greenscreenShader->setUniform1f("greenscreenT", (float)thresholdGreenscreen/255.0);
-                vids[sharedVideoId].getTextureReference().draw(0,0,vids[sharedVideoId].width*videoMultX, vids[sharedVideoId].height*videoMultY);
+                vids[sharedVideoId]->draw(0,0,vids[sharedVideoId]->getWidth()*videoMultX, vids[sharedVideoId]->getHeight()*videoMultY);
                 greenscreenShader->end();
             }
             else
             {
-                vids[sharedVideoId].getTextureReference().draw(0,0,vids[sharedVideoId].width*videoMultX, vids[sharedVideoId].height*videoMultY);
+                vids[sharedVideoId]->draw(0,0,vids[sharedVideoId]->getWidth()*videoMultX, vids[sharedVideoId]->getHeight()*videoMultY);
             }
             if (videoHFlip || videoVFlip)
             {
