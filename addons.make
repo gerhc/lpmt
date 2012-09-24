@@ -5,3 +5,13 @@ ofxMostPixelsEver
 ofxMSAInteractiveObject
 ofxSimpleGuiToo
 ofxOsc
+ofxKinect
+ofxOpenCv
+ofxTimeline
+ofxTween
+ofxRange
+ofxTextInputField
+ofxMSATimer
+ofxTimecode
+ofxTween
+ofxMidi
